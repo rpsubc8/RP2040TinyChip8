@@ -27,6 +27,8 @@ Very preliminary version: Chip8 emulator port to RP2040
  <li>HDMI library Waveshare (adafruit hdmi mod)</li>
  <li>VGA library (Hunter Adams and San Tarcisio mod)</li>
  <li>PS2 library (ps2kbdlib michalhol mod)</li>
+ <li>A variety of PS/2 keyboards, as well as USB keyboards with PS/2 conversion allow 3.3v power supply. Be sure to work with 3.3v. Never power the keyboard at 5v.</li>
+ <li>Although 3 GPIO's are used for VGA, since only 1 bit of colour (black and white) is used, one of the 3 colour GPIO outputs can be used at each input of the VGA monitor.</li>
  <li>No overclock voltage HDMI (1.05v).</li>
 </ul>
 <br><br>
