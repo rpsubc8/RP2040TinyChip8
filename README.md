@@ -1,5 +1,5 @@
 # RP2040TinyChip8
-Chip8 emulator port to RP2040
+Very preliminary version: Chip8 emulator port to RP2040
 
 | VGA   | Description |
 | ----- | ------------|
