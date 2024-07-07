@@ -1,5 +1,6 @@
 # RP2040TinyChip8
 Very preliminary version: Chip8 emulator port to RP2040
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/rp2040pizero.jpg'></center>
 
 | VGA   | Description |
 | ----- | ------------|
@@ -28,3 +29,7 @@ Very preliminary version: Chip8 emulator port to RP2040
  <li>PS2 library (ps2kbdlib michalhol mod)</li>
  <li>No overclock voltage HDMI (1.05v).</li>
 </ul>
+<br><br>
+
+<h1>Precompile version</h1>
+<a href='https://github.com/rpsubc8/RP2040TinyChip8/tree/main/precompile'>https://github.com/rpsubc8/RP2040TinyChip8/tree/main/precompile</a>
