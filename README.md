@@ -21,6 +21,15 @@ Very preliminary version: Chip8 emulator port to RP2040
 |  4        | CLK         |
 |  5        | Data        |
 
+| PS2 GPIO  | Description |
+| --------- | ----------- |
+|  6        | CLK         |
+|  7        | Data        |
+
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/boardps2usbc.jpg'></center>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/ps2usb.jpg'></center>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/usb2usbc.jpg'></center>
+
 <ul>
  <li>Arduino IDE 1.8.11</li>
  <li>Board Waveshare RP2040 pizero</li>
