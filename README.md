@@ -26,26 +26,29 @@ Using the use_lib_keyboard_ps2 option in gbConfig.h we will be able to use an ex
 
 <br><br>
 <h1>PS/2 keyboard USB C</h1>
-If we have a Waveshare board, we can use the PIO-USB connector, i.e. the central one, which is located between the HDMI and the power supply.<br>
+If we have a Waveshare PiZero board, we can use the PIO-USB connector, i.e. the central one, which is located between the HDMI and the power supply.<br>
 From this USB C connector, we can use a USB to USB C converter.
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/usb2usbc.jpg'></center>
 Then we will use a passive PS/2 to USB converter.
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/ps2usb.jpg'></center>
 Finally, connect the PS/2 keyboard to the converter.
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/boardps2usbc.jpg'></center>
+In the gbConfig.h we must choose the option use_lib_keyboard_ps2usb, which will use GPIO 6 and 7.
 
 | PS2 GPIO  | Description |
 | --------- | ----------- |
-|  6        | CLK         |
-|  7        | Data        |
+|  6        | CLK  (D+)   |
+|  7        | Data (D-)   |
 
+For some emulators, when using the native HID protocol via USB, the keyboard must be connected to the external connector, while the board is powered by the central connector (PIO-USB). But in this case, you are using the PS/2 protocol, so you must connect to the central PIO-USB and power it on the external USB.
+<br><br>
 
 
 <h1>Description</h1>
 <ul>
  <li>Arduino IDE 1.8.11</li>
  <li>Board Waveshare RP2040 pizero</li>
- <li>HDMI library Waveshare (adafruit and Wren6991 picDVI hdmi mod)</li>
+ <li>HDMI library Waveshare (adafruit and Wren6991 picoDVI hdmi mod)</li>
  <li>VGA library (Hunter Adams and San Tarcisio mod)</li>
  <li>PS2 library (ps2kbdlib michalhol mod)</li>
  <li>A variety of PS/2 keyboards, as well as USB keyboards with PS/2 conversion allow 3.3v power supply. Be sure to work with 3.3v. Never power the keyboard at 5v.</li>
@@ -56,7 +59,8 @@ Finally, connect the PS/2 keyboard to the converter.
 
 
 <h1>OSD</h1>
-Like the ESP32TinyChip8, I have left an OSD visible when pressing the F1 key. You can navigate with the directional arrows on the keyboard, and when playing, you can use the keys:<br>
+Like the ESP32TinyChip8, I have left an OSD visible when pressing the F1 key.<br>
+You can navigate with the directional arrows on the keyboard, and when playing, you can use the keys:<br>
 <ul>
  <li>Q,W,E,R</li>
  <li>A,S,D,F</li>
