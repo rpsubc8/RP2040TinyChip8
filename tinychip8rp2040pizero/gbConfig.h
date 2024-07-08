@@ -1,9 +1,12 @@
 #ifndef _GB_CONFIG_H
  #define _GB_CONFIG_H
 
- //Keyboard
- #define KEYBOARD_CLK 4
- #define KEYBOARD_DATA 5
+ //Keyboard (select one option)
+ //Keyboard GPIO external real PS2 connector [CLK(4) DATA(5)]
+ //#define use_lib_keyboard_ps2
+ //Keyboard usb board (waveshare) with adapter PS2 to usb, usb to usbC [CLK(6)D+ DATA(7)D-] PIO-USB
+ #define use_lib_keyboard_ps2usb
+
 
 
  //Solo 1 buffer 76800 bytes (no nextframe)
@@ -13,7 +16,7 @@
  //#define use_lib_hdmi
  #define use_lib_vga
 
- //voltage overclock HDMI warning (select one option)
+ //voltage overclock HDMI warning (select one option) 1.10v is default RP2040
  #define VREG_VSEL VREG_VOLTAGE_1_05
  //#define VREG_VSEL VREG_VOLTAGE_1_10
  //#define VREG_VSEL VREG_VOLTAGE_1_20
@@ -47,6 +50,17 @@
 
 
 
+
+ //Keyboard
+ #ifdef use_lib_keyboard_ps2
+  #define KEYBOARD_CLK 4
+  #define KEYBOARD_DATA 5
+ #else
+  #ifdef use_lib_keyboard_ps2usb
+   #define KEYBOARD_CLK 6
+   #define KEYBOARD_DATA 7
+  #endif 
+ #endif 
 
 
  #ifdef use_lib_200x150
