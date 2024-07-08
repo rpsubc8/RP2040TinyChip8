@@ -1,4 +1,5 @@
 # RP2040TinyChip8
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/chip8previewgif.gif'></center>
 Very preliminary version: Chip8 emulator port to RP2040
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/rp2040pizero.jpg'></center>
 
