@@ -16,17 +16,22 @@ Very preliminary version: Chip8 emulator port to RP2040
 | pins_tmds | 26, 24, 22  |
 | pins_clk  | 28          |
 
+<h1>PS/2 keyboard</h1>
+Using the use_lib_keyboard_ps2 option in gbConfig.h we will be able to use an external PS/2 keyboard or a USB to PS/2, if it supports the internal PS/2 protocol, using GPIO 4 and 6. The power supply must be 3.3v. If we want to power at 5V, without reducing the voltage, we will burn the inputs of the RP2040.
+
 | PS2 GPIO  | Description |
 | --------- | ----------- |
 |  4        | CLK         |
 |  5        | Data        |
 
+<br><br>
 <h1>PS/2 keyboard USB C</h1>
-
+If we have a Waveshare board, we can use the PIO-USB connector, i.e. the central one, which is located between the HDMI and the power supply.<br>
+From this USB C connector, we can use a USB to USB C converter.
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/usb2usbc.jpg'></center>
-
+Then we will use a passive PS/2 to USB converter.
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/ps2usb.jpg'></center>
-
+Finally, connect the PS/2 keyboard to the converter.
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/boardps2usbc.jpg'></center>
 
 | PS2 GPIO  | Description |
@@ -36,12 +41,11 @@ Very preliminary version: Chip8 emulator port to RP2040
 
 
 
-
-
+<h1>Description</h1>
 <ul>
  <li>Arduino IDE 1.8.11</li>
  <li>Board Waveshare RP2040 pizero</li>
- <li>HDMI library Waveshare (adafruit hdmi mod)</li>
+ <li>HDMI library Waveshare (adafruit and Wren6991 picDVI hdmi mod)</li>
  <li>VGA library (Hunter Adams and San Tarcisio mod)</li>
  <li>PS2 library (ps2kbdlib michalhol mod)</li>
  <li>A variety of PS/2 keyboards, as well as USB keyboards with PS/2 conversion allow 3.3v power supply. Be sure to work with 3.3v. Never power the keyboard at 5v.</li>
