@@ -50,6 +50,16 @@ Very preliminary version: Chip8 emulator port to RP2040
 </ul>
 <br><br>
 
+
+<h1>OSD</h1>
+Like the ESP32TinyChip8, I have left an OSD visible when pressing the F1 key. You can navigate with the directional arrows on the keyboard, and when playing, you can use the keys:<br>
+<ul>
+ <li>Q,W,E,R</li>
+ <li>A,S,D,F</li>
+ <li>Z,X,C,V</li>
+</ul>
+<br><br>
+
 <h1>Precompile version</h1>
 Versions for VGA or HDMI, with direct PS/2 keyboard (ps2) or via PS/2 to USB C converter (ps2usb) are available.<br>
 <a href='https://github.com/rpsubc8/RP2040TinyChip8/tree/main/precompile'>https://github.com/rpsubc8/RP2040TinyChip8/tree/main/precompile</a>
