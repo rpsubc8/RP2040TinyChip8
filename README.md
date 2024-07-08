@@ -2,6 +2,8 @@
 Very preliminary version: Chip8 emulator port to RP2040
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/rp2040pizero.jpg'></center>
 
+Using use_lib_vga in gbConfig.h:<br>
+
 | VGA   | Description |
 | ----- | ------------|
 | 18    | RED         | 
@@ -10,6 +12,8 @@ Very preliminary version: Chip8 emulator port to RP2040
 | 16    | HSync       |
 | 17    | VSync       |
 
+Using use_lib_hdmi in gbConfig.h:<br>
+
 | HDMI      | GPIO        |
 | --------- | ------------|
 | sm_tmds   | 0, 1, 2     |
@@ -17,7 +21,9 @@ Very preliminary version: Chip8 emulator port to RP2040
 | pins_clk  | 28          |
 
 <h1>PS/2 keyboard</h1>
-Using the use_lib_keyboard_ps2 option in gbConfig.h we will be able to use an external PS/2 keyboard or a USB to PS/2, if it supports the internal PS/2 protocol, using GPIO 4 and 6. The power supply must be 3.3v. If we want to power at 5V, without reducing the voltage, we will burn the inputs of the RP2040.
+Using the use_lib_keyboard_ps2 option in gbConfig.h we will be able to use an external PS/2 keyboard or a USB to PS/2, if it supports the internal PS/2 protocol, using GPIO 4 and 6. The power supply must be 3.3v. If we want to power at 5V, without reducing the voltage, we will burn the inputs of the RP2040.<br>
+If you don't understand any of this, just don't go ahead.
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/ps2.gif'></center>
 
 | PS2 GPIO  | Description |
 | --------- | ----------- |
