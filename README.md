@@ -13,7 +13,7 @@ Using use_lib_vga in gbConfig.h:<br>
 | 16    | HSync       |
 | 17    | VSync       |
 
-Using use_lib_hdmi in gbConfig.h:<br>
+Using use_lib_hdmi in gbConfig.h (hdmi connector on waveshare board):<br>
 
 | HDMI      | GPIO        |
 | --------- | ------------|
@@ -21,9 +21,20 @@ Using use_lib_hdmi in gbConfig.h:<br>
 | pins_tmds | 26, 24, 22  |
 | pins_clk  | 28          |
 
+<br><br>
+<h1>Sound</h1>
+In the gbConfig.h in the SPEAKER_PIN, GPIO 21 is specified. A basic polling system is used to generate a 500 Hz square wave, to save the use of interrupts or timers.<br><br>
+
+| GPIO    | Description      |
+| ------- | -----------------|
+| 21      | square (polling) |
+
+<br><br>
+
+
 <h1>PS/2 keyboard</h1>
 Using the use_lib_keyboard_ps2 option in gbConfig.h we will be able to use an external PS/2 keyboard or a USB to PS/2, if it supports the internal PS/2 protocol, using GPIO 4 and 5. The power supply must be 3.3v. If we want to power at 5V, without reducing the voltage, we will burn the inputs of the RP2040.<br>
-If you don't understand any of this, just don't go ahead.
+If you don't understand any of this, just don't go ahead.<br><br>
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/ps2.gif'></center>
 
 | PS/2 GPIO | Description  |
@@ -34,7 +45,7 @@ If you don't understand any of this, just don't go ahead.
 <br><br>
 <h1>PS/2 keyboard USB C</h1>
 If we have a Waveshare PiZero board, we can use the PIO-USB connector, i.e. the central one, which is located between the HDMI and the power supply.<br>
-From this USB C connector, we can use a USB to USB C converter.
+From this USB C connector, we can use a USB to USB C converter.<br>
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/usb2usbc.jpg'></center>
 Then we will use a passive PS/2 to USB converter.
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/ps2usb.jpg'></center>
