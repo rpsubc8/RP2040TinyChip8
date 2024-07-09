@@ -29,6 +29,9 @@ In the gbConfig.h in the SPEAKER_PIN, GPIO 21 is specified. A basic polling syst
 | ------- | -----------------|
 | 21      | square (polling) |
 
+A filter similar to fabgl's filter can be used with ESP32:<br>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/filtroSonido.gif'></center>
+Although a simple 10K logarithmic potentiometer would be sufficient.<br>
 <br><br>
 
 
