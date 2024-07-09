@@ -13,6 +13,9 @@ Using use_lib_vga in gbConfig.h:<br>
 | 16    | HSync       |
 | 17    | VSync       |
 
+Simple circuit:<br>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/simplevga.gif'></center>
+
 Using use_lib_hdmi in gbConfig.h (hdmi connector on waveshare board):<br>
 
 | HDMI      | GPIO        |
