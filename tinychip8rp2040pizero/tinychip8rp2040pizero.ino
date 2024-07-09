@@ -7,9 +7,10 @@
 // pins_tmds [26, 24, 22]
 // pins_clk [28]
 //PS2 keyboard GPIO [4 (CLK), 5 (Data)]
-//HDMI library Waveshare (adafruit hdmi mod)
+//HDMI library Waveshare (adafruit picodvi hdmi mod)
 //VGA library (Hunter Adams and San Tarcisio mod)
 //PS2 library (ps2kbdlib michalhol mod)
+//Sound GPIO 21 (square polling)
 //No overclock voltage HDMI
 #include <Arduino.h>
 #include "gbConfig.h"
