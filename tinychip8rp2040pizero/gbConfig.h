@@ -3,11 +3,12 @@
 
  //Keyboard (select one option)
  //Keyboard GPIO external real PS2 connector [CLK(4) DATA(5)]
- //#define use_lib_keyboard_ps2
+ #define use_lib_keyboard_ps2
  //Keyboard usb board (waveshare) with adapter PS2 to usb, usb to usbC [CLK(6)D+ DATA(7)D-] PIO-USB
- #define use_lib_keyboard_ps2usb
+ //#define use_lib_keyboard_ps2usb
 
-
+ //GPIO sound
+ #define SPEAKER_PIN 21
 
  //Solo 1 buffer 76800 bytes (no nextframe)
  #define use_lib_vga_one_buffer
@@ -66,15 +67,26 @@
  #ifdef use_lib_200x150
   #define gb_add_offset_x 0
   #define gb_add_offset_y 0
-  #define gb_topeX 200
-  #define gb_topeY 150
-  #define gb_topeX_div4 50
+  //#define gb_topeX 200
+  //#define gb_topeY 150
+  //#define gb_topeX_div4 50
  #else
-  #define gb_add_offset_x 60 
-  #define gb_add_offset_y 40
-  #define gb_topeX 320
-  #define gb_topeY 200
-  #define gb_topeX_div4 80  
+  #ifdef use_lib_hdmi
+   #define gb_add_offset_x 60 
+   #define gb_add_offset_y 40
+   //#define gb_topeX 320
+   //#define gb_topeY 200
+   //#define gb_topeX_div4 80
+  #else
+   #ifdef use_lib_vga
+    //(640-256) DIV 2
+    #define gb_add_offset_x 192 
+    #define gb_add_offset_y 40
+    //#define gb_topeX 320
+    //#define gb_topeY 200
+    //#define gb_topeX_div4 80   
+   #endif
+  #endif 
  #endif
 
  //Posicion Teclado virtual

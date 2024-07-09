@@ -32,6 +32,9 @@
 
 #include "PS2Kbd.h"
 
+//Resetear
+#define AIRCR_Register (*((volatile uint32_t*)(PPB_BASE + 0x0ED0C)))  
+
 //Colores Indices en CHIP8
 #define ID_COLOR_BLACK 0 //Negro
 #define ID_COLOR_WHITE 0xFF //Blanco
@@ -291,7 +294,7 @@ void SDLClear()
    //Pendiente optimizar
    for (unsigned int y=0;y<200;y++)
    {
-    for (unsigned int x=0;x<320;x++)
+    for (unsigned int x=0;x<640;x++)
     {
      drawPixel(x,y,0);
     }
@@ -540,6 +543,10 @@ unsigned char ShowTinyMenu(const char *cadTitle,const char **ptrValue,unsigned c
 
  while (salir == 0)
  {
+  #ifdef use_lib_hdmi    
+   DumpVideoHDMI();       
+  #endif
+  
   gb_currentTime = millis();
   
   if ((gb_currentTime-gb_keyboardTime) >= gb_current_ms_poll_keyboard)
@@ -721,7 +728,7 @@ void ShowVirtualKeyboard()
 
 //Menu resetear
 void ShowTinyResetMenu()
-{
+{ 
  unsigned char aSelNum;
  aSelNum= ShowTinyMenu("Reset",gb_reset_menu,max_gb_reset_menu,0);   
  if ((aSelNum==255)||(aSelNum==2))
@@ -733,7 +740,10 @@ void ShowTinyResetMenu()
  Loadrom2Flash(gb_current_sel_rom);
  if (aSelNum == 1)
  {
-  //ESP.restart(); 
+  //ESP.restart();
+  //AIRCR_Register = 0x5FA0004;
+  watchdog_enable(1, 1);  
+  while(1);
  }
 }
 
@@ -961,6 +971,7 @@ void ShowTinyKeyboardVirtual()
 //Very small tiny osd
 void do_tinyOSD() 
 {
+ unsigned char sonidoAntes;
  unsigned char aSelNum;
  #ifdef use_lib_not_use_ps2keyboard
  #else
@@ -973,6 +984,8 @@ void do_tinyOSD()
 
  if (gb_show_osd_main_menu == 1)
  {
+  sonidoAntes= gbVolMixer;
+  gbVolMixer= 0;
   aSelNum = ShowTinyMenu("MAIN MENU",gb_main_menu,max_gb_main_menu,-1);
   switch (aSelNum)
   {
@@ -992,6 +1005,7 @@ void do_tinyOSD()
   }
   //SDLClear(screen); //Borramos pantalla
   SDL_DumpVGA();
+  gbVolMixer= sonidoAntes;
  }
 }
 
@@ -1710,13 +1724,13 @@ void CPU_loop()
 void SDL_DumpVGA()
 { 
  unsigned char aux;
- unsigned char ofsX,ofsY,calcOfs320;
+ unsigned int ofsX,ofsY,calcOfs320;
  //SDLClear(screen);
  ofsY= gb_add_offset_y; 
- for (int j=0; j<32; j++)
+ for (unsigned int j=0; j<32; j++)
  {
   ofsX= gb_screen_xOffset + gb_add_offset_x;
-  for (int i=0; i<64; i++)  
+  for (unsigned int i=0; i<64; i++)  
   {
    //JJ aux= (gfx[i][j] == 1)?255:0;
    //JJ vga.dotFast((ofsX+i),(ofsY+j),aux);  //x
@@ -1764,7 +1778,7 @@ void Loadrom2Flash(unsigned char id)
 }
 
 //**************************
-void Beep_poll()
+void __not_in_flash_func()Beep_poll()
 {//Genera tono aproximado 500 Hz
  if (gbVolMixer == 1)
  {
@@ -1775,19 +1789,22 @@ void Beep_poll()
    gbCont++;
   }
 
-  /*
-  #ifdef use_lib_cvbs_bitluni
-   pinMode(SPEAKER_PIN, OUTPUT); //Obligar a que sea output y el Silencio en DAC1 REG_CLR_BIT
-  #endif 
-  if ((gbCont & 0x01)==0x01)
-   digitalWrite(SPEAKER_PIN, HIGH);
-  else 
-   digitalWrite(SPEAKER_PIN, LOW);
-  */
+  
+  //#ifdef use_lib_cvbs_bitluni
+  // pinMode(SPEAKER_PIN, OUTPUT); //Obligar a que sea output y el Silencio en DAC1 REG_CLR_BIT
+  //#endif 
+  //if ((gbCont & 0x01)==0x01){
+  // digitalWrite(SPEAKER_PIN, HIGH);
+  //}
+  //else{
+  // digitalWrite(SPEAKER_PIN, LOW);
+  //}
+  digitalWriteFast(SPEAKER_PIN, (gbCont & 0x01));
  }
  else
  {
   //digitalWrite(SPEAKER_PIN, LOW);
+  digitalWriteFast(SPEAKER_PIN, LOW);
  }
 }
 
@@ -1825,9 +1842,15 @@ void Beep_poll()
   long unsigned int ini= micros();
   for (uint y = 0; y < FRAME_HEIGHT; ++y)    
   {
-   unsigned int dest=0;
+   
+   if ((y&0x0F)==0)
+   {//Cada 16 lineas polling sonido
+    Beep_poll(); //Forma cutre de ahorrar timer e interrupcion
+   }
+      
+   unsigned int dest=0;   
    if ((y>=40)&&(y<200))
-   {
+   {    
     for (unsigned int kk=0;kk<320;kk++)
     {
      color= dibujo[auxOffs++];
@@ -1976,6 +1999,9 @@ void ShowFPS()
 //*****************************************************************
 void setup() 
 {
+ pinMode(SPEAKER_PIN, OUTPUT); //Obligar a que sea output y el Silencio en DAC1 REG_CLR_BIT  
+ digitalWrite(SPEAKER_PIN, LOW);
+ 
  // Initialize the Raspberry Pi Pico
  //memset(framebuf,0,sizeof(framebuf));
  //memset(scanline_framebuffer,0xFF,sizeof(scanline_framebuffer));
@@ -2031,6 +2057,7 @@ void setup()
 }
 
 
+unsigned char oscila=0;
 //*****************************************************************
 void loop() 
 {
@@ -2072,6 +2099,7 @@ void loop()
    {
     gb_fps_time_ini= gb_fps_time_cur;
     ShowFPS();    
-   }   
+   }
+
   }
 }
