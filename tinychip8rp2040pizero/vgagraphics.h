@@ -43,6 +43,7 @@
  #define screenWidth 640 //in pixels
  #define screenHeight 240 //in pixels
 
+ //extern unsigned char __attribute__((aligned(4))) vga_data_array[];
  extern unsigned char vga_data_array[];
  extern volatile uint32_t currentFrame;  // frame counter
 

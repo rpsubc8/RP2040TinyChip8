@@ -31,6 +31,9 @@
  //View logs serial
  //#define use_lib_log_serial
 
+ //view fps
+ //#define use_lib_fps_show
+
  //Read keyborad poll x millis
  #define gb_ms_keyboard 20 
  //Two Buttons Joystick press 500 ms for view OSD MENU(use_lib_not_use_ps2keyboard)
@@ -80,7 +83,9 @@
   #else
    #ifdef use_lib_vga
     //(640-256) DIV 2
-    #define gb_add_offset_x 192 
+    //#define gb_add_offset_x 192
+    //#define gb_add_offset_x 120 
+    #define gb_add_offset_x 60 
     #define gb_add_offset_y 40
     //#define gb_topeX 320
     //#define gb_topeY 200

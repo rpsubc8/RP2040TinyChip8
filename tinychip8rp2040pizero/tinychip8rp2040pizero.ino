@@ -308,14 +308,22 @@ void SDLClear()
 inline void jj_fast_putpixel(unsigned int x,unsigned int y,unsigned char c)
 {
  //gb_buffer_vga[y][x^2]= gb_const_colorNormal[c];
- unsigned int auxOffs= (y<<8)+(y<<6)+x;
+ //unsigned int auxOffs= (y<<8)+(y<<6)+x;
  //dibujo[auxOffs]= (c==0)?0:0xFF;
 
  #ifdef use_lib_hdmi
+  unsigned int auxOffs= (y<<8)+(y<<6)+x;
   dibujo[auxOffs]= c;
  #else
   #ifdef use_lib_vga
-   drawPixel(x,y,(c&0x07));
+   //VGA es 640x480, doble 320x240
+   //x=(x<<1);
+   //drawPixel(x,y,(c&0x07));
+   //drawPixel((x+1),y,(c&0x07));
+   unsigned int offsetVGA= (y<<8)+(y<<6)+x; //(destY*320)+destX doble x
+   c= (c&0x07);
+   unsigned char aux= (c<<3)|c;   
+   vga_data_array[offsetVGA]= aux;   //2 pixels   
   #endif
  #endif 
  //unsigned int auxOffs= (y*320*2)+x;
@@ -1284,6 +1292,12 @@ void SDL_keys_poll()
   key[0x0B] = checkKey(PS2_KC_C); //(keymap[PS2_KC_C] == 0)?1:0; //c
   key[0x0F] = checkKey(PS2_KC_V); //(keymap[PS2_KC_V] == 0)?1:0; //v  
 
+  if (checkKey(KEY_CURSOR_LEFT)){ key[0x04] = 1; }
+  if (checkKey(KEY_CURSOR_UP)){ key[0x05] = 1; }
+  if (checkKey(KEY_CURSOR_RIGHT)){ key[0x06] = 1; }
+  if (checkKey(KEY_CURSOR_DOWN)){ key[0x08] = 1; }
+  if (checkKey(KEY_BACKSPACE)){ key[0x0F] = 1; }  
+  
   //if (keymap[KEY_CURSOR_LEFT] == 0)
   // key[0x04] = 1;
   //if (keymap[KEY_CURSOR_UP] == 0)
@@ -1295,7 +1309,7 @@ void SDL_keys_poll()
   //if (keymap[KEY_BACKSPACE] == 0)
   // key[0x0F] = 1;
 
-
+/*
   //Gamepad
   key[gb_id_key_left]= checkKey(KEY_CURSOR_LEFT); //(keymap[KEY_CURSOR_LEFT] == 0)?1:0; //left
   key[gb_id_key_right]= checkKey(KEY_CURSOR_RIGHT); //(keymap[KEY_CURSOR_RIGHT] == 0)?1:0; //right  
@@ -1303,6 +1317,7 @@ void SDL_keys_poll()
   key[gb_id_key_down]= checkKey(KEY_CURSOR_DOWN); //(keymap[KEY_CURSOR_DOWN] == 0)?1:0; //down  
   key[gb_id_key_a]= checkKey(PS2_KC_KP0); //(keymap[PS2_KC_KP0] == 0)?1:0;   //A 0 numerico
   key[gb_id_key_b]= checkKey(PS2_KC_KP_DOT); //(keymap[PS2_KC_KP_DOT] == 0)?1:0; //B . numerico
+  */
  #endif  
 }
 
@@ -1722,10 +1737,15 @@ void CPU_loop()
 
 
 //****************************
+//unsigned int gb_bw32[2]={0,0x3F3F3F3F};
+unsigned char gb_bw[2]={0x00,0x3F};
+unsigned char gb_bw_hdmi[2]={0x00,0xFF};
 void SDL_DumpVGA()
 { 
+ //unsigned int *ptrvga32= (unsigned int *)&vga_data_array[0];
  unsigned char aux;
  unsigned int ofsX,ofsY,calcOfs320;
+ unsigned int destX,destY,offsetVGA,offsetHDMI; //,aux32;
  //SDLClear(screen);
  ofsY= gb_add_offset_y; 
  for (unsigned int j=0; j<32; j++)
@@ -1740,23 +1760,63 @@ void SDL_DumpVGA()
    //JJ vga.dotFast((ofsX+i+1),ofsY+j+1,aux);//x+1,y+1
    
 //   aux= (gfx[i][j] == 1)?gb_const_colorNormal[1]:gb_const_colorNormal[0];      
-   aux= (gfx[i][j] == 1)?0xFF:0;
+   //aux= (gfx[i][j] == 1)?0xFF:0;
+   aux= gb_bw_hdmi[(gfx[i][j])];
    //dibujo[((j+gb_add_offset_y)*320) + (i+gb_add_offset_x)]= aux;
    #ifdef use_lib_hdmi
-    dibujo[((j+ofsY)*320) + (ofsX+i)]= aux;
-    dibujo[((j+ofsY)*320) + (ofsX+i+1)]= aux;
+    destY= (j+ofsY);    
+    destX= (ofsX+i);
+    offsetHDMI= (destY<<8)+(destY<<6) + destX;
+
+    dibujo[offsetHDMI]= aux;
+    dibujo[(offsetHDMI + 1)]= aux;
+
+    offsetHDMI+=320;
+    dibujo[offsetHDMI]= aux;
+    dibujo[(offsetHDMI + 1)]= aux;    
+    
+    //dibujo[((j+ofsY)*320) + (ofsX+i)]= aux;
+    //dibujo[((j+ofsY)*320) + (ofsX+i+1)]= aux;
    
-    dibujo[((j+ofsY+1)*320) + (ofsX+i)]= aux;
-    dibujo[((j+ofsY+1)*320) + (ofsX+i+1)]= aux;
+    //dibujo[((j+ofsY+1)*320) + (ofsX+i)]= aux;
+    //dibujo[((j+ofsY+1)*320) + (ofsX+i+1)]= aux;
+
+    ofsX+=2;
    #else
     #ifdef use_lib_vga    
-     //VGA
-     aux= aux&0x07;
-     drawPixel((ofsX+i),(j+ofsY),aux);
-     drawPixel((ofsX+i+1),(j+ofsY),aux);
+     //VGA (Pendiente de optimizar, esta fatal)
+     //aux= aux&0x07;
+     aux= aux&0x01;
+     destX= (ofsX+i);
+     destY= (j+ofsY);
+     //drawPixel(destX,destY,aux);
+     //drawPixel((destX+1),destY,aux);
+     //drawPixel((destX+2),destY,aux);
+     //drawPixel((destX+3),destY,aux);
 
-     drawPixel((ofsX+i),(j+ofsY+1),aux);
-     drawPixel((ofsX+i+1),(j+ofsY+1),aux);
+     //aux= (aux==0)?0:0xFF;
+     //aux32= gb_bw32[aux];
+     aux= gb_bw[aux];
+     offsetVGA= (destY<<8)+(destY<<6)+destX;//(destY*320)+destX;
+     //offsetVGA= (destY<<6)+(destY<<4)+(destX>>2);//(destY*80)+(destX/4);
+     //offsetVGA= ((destY*320)+destX)/4;//(destY*80)+(destX/4);
+     vga_data_array[offsetVGA]= aux;   //2 pixels
+     vga_data_array[offsetVGA+1]= aux; //2 pixels
+     //ptrvga32[offsetVGA]= aux32;
+
+     //destY++;
+     //drawPixel(destX,destY,aux);
+     //drawPixel((destX+1),destY,aux);
+     //drawPixel((destX+2),destY,aux);
+     //drawPixel((destX+3),destY,aux);
+
+     offsetVGA+= 320;
+     //offsetVGA+= 80;
+     vga_data_array[offsetVGA]= aux;   //2 pixels
+     vga_data_array[offsetVGA+1]= aux; //2 pixels     
+     //ptrvga32[offsetVGA]= aux32;
+     
+     ofsX+=2;
     #endif 
    #endif 
    
@@ -1766,7 +1826,7 @@ void SDL_DumpVGA()
 //    gb_buffer_vga[(ofsY+j+1)][(ofsX+i)^2] = aux;
 //    gb_buffer_vga[(ofsY+j+1)][(ofsX+i+1)^2] = aux;
 
-   ofsX+=2;
+   //ofsX+=2;
   }  
   ofsY+=2;  
  }
@@ -1836,12 +1896,15 @@ void __not_in_flash_func()Beep_poll()
 #ifdef use_lib_hdmi
  //******************************************************************
  void __not_in_flash_func()DumpVideoHDMI()
- {
+ {//16278
   unsigned int auxOffs= 0;//(y<<8)+(y<<6);//(y*320);
   uint16_t *scanline;
+  unsigned char color=0;
+  uint16_t *ptr_oneline16= (uint16_t *)&oneline[0];  
+  uint16_t color16=0;
 
   long unsigned int ini= micros();
-  for (uint y = 0; y < FRAME_HEIGHT; ++y)    
+  for (uint y = 0; y < FRAME_HEIGHT; ++y)
   {
    
    if ((y&0x0F)==0)
@@ -1854,10 +1917,15 @@ void __not_in_flash_func()Beep_poll()
    {    
     for (unsigned int kk=0;kk<320;kk++)
     {
+//     color= dibujo[auxOffs++];
+//     oneline[dest++]= color;
+//     oneline[dest++]= color;             
+
      color= dibujo[auxOffs++];
-     oneline[dest++]= color;
-     oneline[dest++]= color;             
+     color16= (((uint16_t)color)<<8)|color;
+     ptr_oneline16[dest++]= color16;  
     }
+  
     scanline = &((uint16_t *)oneline)[0];
    }
    else
@@ -1902,7 +1970,7 @@ void CambiaTexto()
 
 //*********************************************************
 void EmuLoop()
-{
+{  
  if (gb_run_emulacion == 1)
  {                 
   CPU_loop();
@@ -2062,20 +2130,21 @@ unsigned char oscila=0;
 //*****************************************************************
 void loop() 
 {
-  // Pass out pointers into our preprepared image, discard the pointers when
-  // returned to us. Use frame_ctr to scroll the image   
   unsigned short int contSalta=0;
   while (true) 
-  {   
-   //tiempoHDMI_cur= millis();
-   //if ((tiempoHDMI_cur-tiempoHDMI_before)>=40)
-   //{
-   // tiempoHDMI_before= tiempoHDMI_cur;
-   // DumpVideoHDMI();
-   //}
+  {     
+   //if (contSalta==0)
+   //if ((contSalta & 0x7F)==0)
    if (contSalta==0)
    {
     #ifdef use_lib_hdmi    
+     //tiempoHDMI_cur= millis();
+     //if ((tiempoHDMI_cur-tiempoHDMI_before)>=16)
+     //if ((tiempoHDMI_cur-tiempoHDMI_before)>=40)
+     //{
+     // tiempoHDMI_before= tiempoHDMI_cur;
+     // DumpVideoHDMI();
+     //}
      DumpVideoHDMI();     
      //sleep_ms(1);    
     #else
@@ -2085,22 +2154,25 @@ void loop()
     #endif 
    }
    contSalta++;
-   if (contSalta>100)
+   if (contSalta>=32)
    {
-    contSalta=0;   
+    contSalta=0;  
    }
+   
    
    
    //CambiaTexto();
    EmuLoop();
 
 
-   gb_fps_time_cur= millis();
-   if ((gb_fps_time_cur-gb_fps_time_ini)>=999)
-   {
-    gb_fps_time_ini= gb_fps_time_cur;
-    ShowFPS();    
-   }
+   #ifdef use_lib_fps_show
+    gb_fps_time_cur= millis();
+    if ((gb_fps_time_cur-gb_fps_time_ini)>=999)
+    {
+     gb_fps_time_ini= gb_fps_time_cur;
+     ShowFPS();    
+    }
+   #endif
 
   }
 }

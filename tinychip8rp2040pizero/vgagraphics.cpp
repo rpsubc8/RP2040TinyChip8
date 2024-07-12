@@ -34,6 +34,7 @@ const int QVGALastLine = 240;  //La cantidad de lineas de los gráficos. Se usa 
 // Pixel color array that is DMA's to the PIO machines and
 // a pointer to the ADDRESS of this color array.
 // Note that this array is automatically initialized to all 0's (black)
+//unsigned char __attribute__((aligned(4))) vga_data_array[TXCOUNT]; //76800 bytes (640x240 div 2)
 unsigned char vga_data_array[TXCOUNT]; //76800 bytes (640x240 div 2)
 volatile unsigned char* address_pointer_array = &vga_data_array[0];
 #ifdef use_lib_vga_one_buffer
