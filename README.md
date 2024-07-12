@@ -5,13 +5,13 @@ Very preliminary version: Chip8 emulator port to RP2040
 
 Using use_lib_vga in gbConfig.h:<br>
 
-| VGA   | Description |
-| ----- | ------------|
-| 18    | RED         | 
-| 19    | GREEN       |
-| 20    | BLUE        |
-| 16    | HSync       |
-| 17    | VSync       |
+| VGA GPIO  | Description |
+| --------- | ------------|
+| 18        | RED         | 
+| 19        | GREEN       |
+| 20        | BLUE        |
+| 16        | HSync       |
+| 17        | VSync       |
 
 Simple circuit:<br>
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/simplevga.gif'></center>
@@ -86,11 +86,57 @@ For some emulators, when using the native HID protocol via USB, the keyboard mus
 <h1>OSD</h1>
 Like the ESP32TinyChip8, I have left an OSD visible when pressing the F1 key.<br>
 You can navigate with the directional arrows on the keyboard, and when playing, you can use the keys:<br>
-<ul>
- <li>Q,W,E,R</li>
- <li>A,S,D,F</li>
- <li>Z,X,C,V</li>
-</ul>
+
+<h2>Keyboard PS/2</h2>
+
+|  K  |  K  |  K  |  K  |
+| --- | --- | --- | --- |
+|  1  |  2  |  3  |  4  |
+|  Q  |  W  |  E  |  R  |
+|  A  |  S  |  D  |  F  |
+|  Z  |  X  |  C  |  V  |
+
+<br><br>
+<h2>Keyboard CHIP8</h2>
+
+|  K  |  K  |  K  |  K  |
+| --- | --- | --- | --- |
+|  1  |  2  |  3  |  C  |
+|  4  |  5  |  6  |  D  |
+|  7  |  8  |  9  |  E  |
+|  A  |  0  |  B  |  F  |
+
+<br><br>
+
+| KEY CHIP8 | KEY KEYBOARD |
+| --------- | ------------ |
+| 1         | 1            |
+| 2         | 2            |
+| 3         | 3            |
+| C         | 4            |
+| 4         | Q            |
+| 5         | W            |
+| 6         | E            |
+| D         | R            |
+| 7         | A            |
+| 8         | S            |
+| 9         | D            |
+| E         | F            |
+| A         | Z            |
+| 0         | X            |
+| B         | C            |
+| F         | V            |
+
+<br><br>
+
+| CURSOR    | KEY KEYBOARD | KEY CHIP8 |
+| --------- | ------------ | --------- |
+| LEFT      | Q            | 4         |
+| RIGHT     | E            | 6         |
+| DOWN      | S            | 8         |
+| UP        | W            | 5         |
+| BACKSPACE | V            | F         |
+
 <br><br>
 
 <h1>Precompile version</h1>
