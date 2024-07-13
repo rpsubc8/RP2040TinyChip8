@@ -13,6 +13,9 @@ Using use_lib_vga in gbConfig.h:<br>
 | 16        | HSync       |
 | 17        | VSync       |
 
+Complete circuit:<br>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/circuitovga.gif'></center>
+
 Simple circuit:<br>
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/simplevga.gif'></center>
 
@@ -43,6 +46,9 @@ Although a simple 100K logarithmic potentiometer would be sufficient.<br>
 Using the use_lib_keyboard_ps2 option in gbConfig.h we will be able to use an external PS/2 keyboard or a USB to PS/2, if it supports the internal PS/2 protocol, using GPIO 4 and 5. The power supply must be 3.3v. If we want to power at 5V, without reducing the voltage, we will burn the inputs of the RP2040.<br>
 If you don't understand any of this, just don't go ahead.<br><br>
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/ps2.gif'></center>
+
+Simple circuit:
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/minimalkeyboard.gif'></center>
 
 | PS/2 GPIO | Description  |
 | --------- | ------------ |
@@ -136,6 +142,19 @@ You can navigate with the directional arrows on the keyboard, and when playing, 
 | DOWN      | S            | 8         |
 | UP        | W            | 5         |
 | BACKSPACE | V            | F         |
+
+<br><br>
+
+<h1>Arduino IDE</h1>
+Preferences board:<br>
+<pre>
+ https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+</pre>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/preferencesArduinoIde.gif'></center>
+Earle F. Philhower version 2.6.4 or superior:<br>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/earleFPhilhower264.gif'></center>
+Waveshare RP2040 Plus 16MB options:<br>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/optionsrp2040.gif'></center>
 
 <br><br>
 
