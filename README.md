@@ -152,7 +152,7 @@ Preferences board:<br>
  https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
 </pre>
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/preferencesArduinoIde.gif'></center>
-Earle F. Philhower version 2.6.4 or superior:<br>
+Earle F. Philhower version 2.6.4:<br>
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/earleFPhilhower264.gif'></center>
 Waveshare RP2040 Plus 16MB options:<br>
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/optionsrp2040.gif'></center>
