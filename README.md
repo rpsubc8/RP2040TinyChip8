@@ -146,6 +146,7 @@ You can navigate with the directional arrows on the keyboard, and when playing, 
 <br><br>
 
 <h1>Arduino IDE</h1>
+Version 1.8.11.<br>
 Preferences board:<br>
 <pre>
  https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
