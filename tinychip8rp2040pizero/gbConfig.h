@@ -3,9 +3,9 @@
 
  //Keyboard (select one option)
  //Keyboard GPIO external real PS2 connector [CLK(4) DATA(5)]
- #define use_lib_keyboard_ps2
+ //#define use_lib_keyboard_ps2
  //Keyboard usb board (waveshare) with adapter PS2 to usb, usb to usbC [CLK(6)D+ DATA(7)D-] PIO-USB
- //#define use_lib_keyboard_ps2usb
+ #define use_lib_keyboard_ps2usb
 
  //GPIO sound
  #define SPEAKER_PIN 21
@@ -14,8 +14,8 @@
  #define use_lib_vga_one_buffer
 
  //Use hdmi waveshare rp2040 pizero (select one option)
- //#define use_lib_hdmi
- #define use_lib_vga
+ #define use_lib_hdmi
+ //#define use_lib_vga
 
  //voltage overclock HDMI warning (select one option) 1.10v is default RP2040
  #define VREG_VSEL VREG_VOLTAGE_1_05
@@ -95,7 +95,14 @@
  #endif
 
  //Posicion Teclado virtual
- #define gb_pos_x_virtualKey 4
- #define gb_pos_y_virtualKey 4
+ #ifdef use_lib_hdmi
+  #define gb_pos_x_virtualKey 8
+  #define gb_pos_y_virtualKey 32
+ #else
+  #ifdef use_lib_vga
+   #define gb_pos_x_virtualKey 4
+   #define gb_pos_y_virtualKey 4
+  #endif
+ #endif 
 
 #endif
