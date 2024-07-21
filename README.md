@@ -144,6 +144,29 @@ You can navigate with the directional arrows on the keyboard, and when playing, 
 | BACKSPACE | V            | F         |
 
 <br><br>
+Gamepad Virtual
+
+| CURSOR    | KEY KEYBOARD | KEY CHIP8 |
+| --------- | ------------ | --------- |
+| LEFT      | Q            | 4         |
+| RIGHT     | E            | 6         |
+| DOWN      | S            | 8         |
+| UP        | 2            | 2         |
+| FIRE A(0) | W            | 5         |
+| FIRE B(.) | V            | F         |
+
+<br><br>
+KEYBOARD Virtual
+
+| CURSOR    | KEY KEYBOARD |
+| --------- | ------------ |
+| LEFT      | LEFT         |
+| RIGHT     | RIGH         |
+| DOWN      | DOWN         |
+| UP        | UP           |
+| 0 (INS)   | FIRE A (0)   |
+
+<br><br>
 
 <h1>Arduino IDE</h1>
 Version 1.8.11.<br>
