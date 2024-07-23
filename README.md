@@ -28,6 +28,8 @@ In this connector we have:
 | 14          | VSYNC        |
 | 5,6,7,8,11  | GROUND       |
 
+Some modern monitors may need 5v (very low amperage) on pin 9, which in the current schematic is not connected (N/C).<br>
+
 Complete circuit:<br>
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/circuitovgaunwelded.gif'></center>
 
