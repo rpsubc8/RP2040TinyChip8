@@ -5,13 +5,37 @@ Very preliminary version: Chip8 emulator port to RP2040
 
 Using use_lib_vga in gbConfig.h:<br>
 
-| VGA GPIO  | Description |
-| --------- | ------------|
-| 18        | RED         | 
-| 19        | GREEN       |
-| 20        | BLUE        |
-| 16        | HSync       |
-| 17        | VSync       |
+| VGA GPIO  | Description  |
+| --------- | ------------ |
+| 18        | RED          | 
+| 19        | GREEN        |
+| 20        | BLUE         |
+| 16        | HSync        |
+| 17        | VSync        |
+
+If a 10-hole non-soldering DB15 VGA connector, such as the one attached, is used:
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/vgasinsoldar01.jpg'></center>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/vgasinsoldar02.jpg'></center>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/vgasinsoldar03.jpg'></center>
+In this connector we have:
+
+| VGA         | Description  |
+| ----------- | ------------ |
+| 1           | RED          | 
+| 2           | GREEN        |
+| 3           | BLUE         |
+| 13          | HSYNC        |
+| 14          | VSYNC        |
+| 5,6,7,8,11  | GROUND       |
+
+Complete circuit:<br>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/circuitovgaunwelded.gif'></center>
+
+Simple circuit:<br>
+<center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/simplevgaunwelded.gif'></center>
+
+<br>
+For very old monitors (CRT VGA), the following scheme may be required:
 
 Complete circuit:<br>
 <center><img src='https://raw.githubusercontent.com/rpsubc8/RP2040TinyChip8/main/preview/circuitovga.gif'></center>
