@@ -208,6 +208,26 @@ Waveshare RP2040 Plus 16MB options:<br>
 
 <br><br>
 
+
+<br><br>
+<h1>Tool rom2h</h1>
+I have created a very basic tool, to convert the files <b>(.rom, .ch8)</b>, in ready mode to be processed by the emulator. We only have to leave the files in the folder <b>input/roms</b> and execute the file <b>rom2h.exe</b>, so that an output will be generated in the directory <b>output/dataFlash</b>. For testing purposes, several files have been left in each directory, which it is recommended to delete in case of making a new custom list. It is also recommended to delete the files in the <b>tinychip8rp2040pizero\dataFlash\</b> directory to have a clean project.
+<a href='https://github.com/rpsubc8/RP2040TinyChip8/tree/main/tools/rom2h'>Tool rom2h</a>
+<br><br>
+<pre>
+ input/
+  roms/
+   15 Puzzle (Roger Ivie).ch8
+   Addition Problems (Paul C Moews).ch8
+   Most Dangerous Game (Peter Maruhnic).ch8
+</pre>
+
+Characters support: A..Z , a..z , 0..9<br>
+Max character title: 43<br>
+It is recommended to clean the project and recompile it.<br>
+This tool is very simple, and does not control errors, so it is recommended to leave you the files with very simple names and as simple as possible.<br>
+<br><br>
+
 <h1>Precompile version</h1>
 Versions for VGA or HDMI, with direct PS/2 keyboard (ps2) or via PS/2 to USB C converter (ps2usb) are available.<br>
 <a href='https://github.com/rpsubc8/RP2040TinyChip8/tree/main/precompile'>https://github.com/rpsubc8/RP2040TinyChip8/tree/main/precompile</a>
