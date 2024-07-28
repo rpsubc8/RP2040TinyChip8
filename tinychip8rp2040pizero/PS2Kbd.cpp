@@ -49,12 +49,12 @@ void __not_in_flash_func()kb_interruptHandler()
  //int clock = digitalRead(KEYBOARD_CLK);
  //if (clock == 1)
  //if (digitalRead(KEYBOARD_CLK) == 1)
- if digitalReadFast(KEYBOARD_CLK)
+ if digitalReadFast2040(KEYBOARD_CLK)
  {
   return;
  }
 
- val= digitalReadFast(KEYBOARD_DATA); //val = digitalRead(KEYBOARD_DATA);
+ val= digitalReadFast2040(KEYBOARD_DATA); //val = digitalRead(KEYBOARD_DATA);
  now_ms = millis(); 
  if ((now_ms - gb_kb_prev_ms) > 250)
  {

@@ -28,6 +28,11 @@
  #define use_lib_320x200
 
 
+ //Delay boot keyboard
+ #define gb_delay_keyboard_init_ms 500
+ //Delay set voltage stable
+ #define gb_delay_hdmi_voltage_init_ms 10
+
  //View logs serial
  //#define use_lib_log_serial
 

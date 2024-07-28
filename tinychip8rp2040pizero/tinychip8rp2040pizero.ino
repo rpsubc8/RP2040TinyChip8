@@ -106,7 +106,7 @@
 #define id_menu_ram 9
 #define id_menu_about 10
 
-
+unsigned char gb_setup_end=0;
 unsigned char gb_use_tiled=0; //Tiled pixels
 unsigned char gb_use_tveffect=1; //efecto nieve tv OSD
 unsigned char gb_use_silence=0;
@@ -1626,7 +1626,7 @@ void ShowTinySpeedMenu()
 void ShowTinyROMMenu()
 {
  unsigned char aSelNum;   
- aSelNum = ShowTinyMenu((char *)"LOAD ROM", (char **)gb_list_rom_title,gb_current_sel_rom,max_list_rom);
+ aSelNum = ShowTinyMenu((char *)"  LOAD ROM", (char **)gb_list_rom_title,gb_current_sel_rom,max_list_rom);
  if (aSelNum==255)
  {
   gb_id_menu_cur=id_menu_main;
@@ -3101,12 +3101,12 @@ void __not_in_flash_func()Beep_poll()
   //else{
   // digitalWrite(SPEAKER_PIN, LOW);
   //}
-  digitalWriteFast(SPEAKER_PIN, (gbCont & 0x01));
+  digitalWriteFast2040(SPEAKER_PIN, (gbCont & 0x01));
  }
  else
  {
   //digitalWrite(SPEAKER_PIN, LOW);
-  digitalWriteFast(SPEAKER_PIN, LOW);
+  digitalWriteFast2040(SPEAKER_PIN, LOW);
  }
 }
 
@@ -3341,7 +3341,8 @@ void setup()
  gb_ramfree_ini= rp2040.getFreeHeap();
  
  pinMode(SPEAKER_PIN, OUTPUT); //Obligar a que sea output y el Silencio en DAC1 REG_CLR_BIT  
- digitalWrite(SPEAKER_PIN, LOW);
+ //digitalWrite(SPEAKER_PIN, LOW);
+ digitalWriteFast2040(SPEAKER_PIN, LOW);
 
  #ifdef use_lib_hdmi
   hdmi_data_array= (unsigned char *)malloc(76800); //pointer hdmi
@@ -3370,10 +3371,10 @@ void setup()
  Serial.printf("PS2 Keyboard init\r\n");
  
  //delay(3000);
- delay(500);
+ delay(gb_delay_keyboard_init_ms);
  #ifdef use_lib_hdmi
   vreg_set_voltage(VREG_VSEL);
-  delay(10);
+  delay(gb_delay_hdmi_voltage_init_ms);
  #endif 
    
  #ifdef use_lib_hdmi
@@ -3410,6 +3411,8 @@ void setup()
  gb_ramfree_setupEnd= rp2040.getFreeHeap();
  Serial.printf("RAM END %d\r\n",gb_ramfree_setupEnd);
  Serial.printf("END Setup\r\n");
+
+ gb_setup_end= 1;
 }
 
 
@@ -3418,7 +3421,7 @@ unsigned char oscila=0;
 void loop() 
 {
   unsigned short int contSalta=0;
-  while (true) 
+  while (gb_setup_end==1)
   {     
    #ifdef use_lib_hdmi    
     //tiempoHDMI_cur= millis();     
@@ -3464,4 +3467,6 @@ void loop()
    #endif
 
   }
+
+  delay(1); //fix watchdog warning
 }

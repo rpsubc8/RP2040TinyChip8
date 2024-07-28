@@ -101,8 +101,8 @@
 
 
 
-#define digitalWriteFast(pin, val)  (val ? sio_hw->gpio_set = (1 << pin) : sio_hw->gpio_clr = (1 << pin))
-#define digitalReadFast(pin)        (((1 << pin) & sio_hw->gpio_in)!=0)
+#define digitalWriteFast2040(pin, val)  (val ? sio_hw->gpio_set = (1 << pin) : sio_hw->gpio_clr = (1 << pin))
+#define digitalReadFast2040(pin)        (((1 << pin) & sio_hw->gpio_in)!=0)
 
 
 
