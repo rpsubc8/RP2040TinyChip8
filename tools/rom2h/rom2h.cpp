@@ -5,6 +5,7 @@
 //Max name file: 64 characters
 //Max tile OSD emulator: 43 characters
 //Characters support A..Z a..z 0..9
+//Title: ( ) , - 0..9 : ; = A..Z [] _ a..z {}
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
@@ -28,10 +29,12 @@ int GetSizeFile(char *cadFile);
 void InitTitles(void);
 void RemoveExt(char *cad);
 void ProcesaFicherosROM(void);
-void TituloEspacios(char *cadOri, char *cadDest);
+//void TituloEspacios(char *cadOri, char *cadDest);
+void AddOSDTitle(char *cadTitle,unsigned int id);
 
 FILE *gb_fileWrite = NULL;
 char gb_titles[maxObjects][(max_cad_tile_file+1)];
+char gb_tilesOSD[maxObjects][(max_cad_tile_file+1)];
 char gb_nameFiles[maxObjects][(max_cad_name_files+1)];
 //char gb_nameDir[maxObjects][64];
 unsigned char gb_contRom=0;
@@ -72,6 +75,7 @@ void InitTitles()
  for (unsigned char i=0;i<maxObjects;i++)
  {
   gb_titles[i][0]='\0';
+  gb_tilesOSD[i][0]='\0';
  }
 }
 
@@ -148,21 +152,21 @@ void WriteFileROM(unsigned char num,char *cadPath,char *cadFile, char *cadFileSo
 }
 
 //**********************************************
-void TituloEspacios(char *cadOri, char *cadDest)
-{
- int topeOri= strlen(cadOri);
- for (int i=0;i<topeOri;i++)
- {
-  cadDest[i]= (cadOri[i]=='_')?' ':cadOri[i];
- }
- cadDest[topeOri]='\0';
- cadDest[max_cad_title]='\0';
-}
+//void TituloEspacios(char *cadOri, char *cadDest)
+//{
+// int topeOri= strlen(cadOri);
+// for (int i=0;i<topeOri;i++)
+// {
+//  cadDest[i]= (cadOri[i]=='_')?' ':cadOri[i];
+// }
+// cadDest[topeOri]='\0';
+// cadDest[max_cad_title]='\0';
+//}
 
 //**********************************************
 void WriteHeadROM_H(char *cadDefine)
 {//Los 48k
- char cadOutTiles[max_cad_title];
+ //char cadOutTiles[max_cad_title];
  if (gb_fileWrite == NULL)
  {
   return;
@@ -190,9 +194,10 @@ void WriteHeadROM_H(char *cadDefine)
   }
   else
   {
-   cadOutTiles[0]='\0';
-   TituloEspacios(gb_titles[i],cadOutTiles);
-   fprintf(gb_fileWrite,"  \"%s\"",cadOutTiles);
+   //cadOutTiles[0]='\0';
+   //TituloEspacios(gb_titles[i],cadOutTiles);
+   //fprintf(gb_fileWrite,"  \"%s\"",cadOutTiles);
+   fprintf(gb_fileWrite,"  \"%s\"",gb_tilesOSD[i]);
   }
   if (i<(gb_contRom-1))
   {
@@ -257,7 +262,53 @@ void WriteSizeROM()
  fprintf(gb_fileWrite,"\n");  
 }
 
-
+//**********************************************
+void AddOSDTitle(char *cadTitle,unsigned int id)
+{
+ int total= strlen(cadTitle);
+ if (total > max_cad_title)
+ {
+  total= max_cad_title;
+  gb_tilesOSD[id][max_cad_title]='\0';
+ }
+ 
+ for (int i=0;i<total;i++)
+ {
+  if (cadTitle[i]=='.')
+  {
+   gb_tilesOSD[id][i]='\0';
+   return;
+  }
+  else
+  {
+   // ( ) , - 0..9 : ; = A..Z [] _ a..z {}
+   if (
+       (cadTitle[i]==32)
+       || ((cadTitle[i]>=40)&&(cadTitle[i]<=41))
+       || (cadTitle[i]==44)
+       || (cadTitle[i]==45)
+       || ((cadTitle[i]>=48)&&(cadTitle[i]<=57))
+       || (cadTitle[i]==58)
+       || (cadTitle[i]==59)
+       || (cadTitle[i]==61)
+       || ((cadTitle[i]>=65)&&(cadTitle[i]<=90))
+       || (cadTitle[i]==91)
+       || (cadTitle[i]==93)
+       || (cadTitle[i]==95)
+       || ((cadTitle[i]>=97)&&(cadTitle[i]<=122))
+       || (cadTitle[i]==123)
+       || (cadTitle[i]==125)
+      )
+   {
+    gb_tilesOSD[id][i]= cadTitle[i];
+   }
+   else
+   {    
+    gb_tilesOSD[id][i]= '_';
+   }
+  }
+ }     
+}
 
 //**********************************************
 void listFilesRecursively(char *basePath)
@@ -278,7 +329,8 @@ void listFilesRecursively(char *basePath)
             
             strcpy(cadFileSource,dp->d_name);
             strcpy(gb_nameFiles[gb_contRom],dp->d_name); //Nombre completo
-            RemoveExt(dp->d_name);
+            AddOSDTitle(dp->d_name,gb_contRom); //OSD quito algunos caracteres y aniado en listad osd
+            RemoveExt(dp->d_name); //Quito caracteres raros para C includoe
             strcpy(gb_titles[gb_contRom],dp->d_name);
 
             WriteFileROM(gb_contRom,basePath,dp->d_name,cadFileSource);            
