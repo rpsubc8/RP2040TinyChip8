@@ -304,7 +304,7 @@ void AddOSDTitle(char *cadTitle,unsigned int id)
    }
    else
    {    
-    gb_tilesOSD[id][i]= '_';
+    gb_tilesOSD[id][i]= 32; //Espacio blanco
    }
   }
  }     
