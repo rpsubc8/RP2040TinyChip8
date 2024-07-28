@@ -223,7 +223,8 @@ I have created a very basic tool, to convert the files <b>(.rom, .ch8)</b>, in r
    Most Dangerous Game (Peter Maruhnic).ch8
 </pre>
 
-Characters support: A..Z , a..z , 0..9<br>
+Internal characters supported: A..Z , a..z , 0..9<br>
+Supported title characters: ( ) , - 0..9 : ; = A..Z [] _ a..z {}<br>
 Max character title: 43<br>
 It is recommended to clean the project and recompile it.<br>
 This tool is very simple, and does not control errors, so it is recommended to leave you the files with very simple names and as simple as possible.<br>
