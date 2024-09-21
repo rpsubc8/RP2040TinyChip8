@@ -13,7 +13,10 @@
 //static unsigned char keymap[256];
 //static unsigned char oldKeymap[256];
 //static unsigned char keymap[32]; //256 DIV 8 = 32 bytes packet bit
-volatile unsigned char gb_keymap[32]; //256 DIV 8 = 32 bytes packet bit
+#define gb_max_keymap 32
+#define gb_max_keymap32 8
+volatile unsigned char gb_keymap[gb_max_keymap]; //256 DIV 8 = 32 bytes packet bit
+volatile unsigned int *gb_keymap32=(unsigned int *)gb_keymap;
 
 //unsigned int shift = 0; //Ya no se necesita
 //byte lastcode = 0; //Ya no se necesita
@@ -74,7 +77,8 @@ void __not_in_flash_func()kb_interruptHandler()
   //{
    if (keyup == 1) 
    {//Se libera tecla pasa a 1
-    if (gb_keymap[gb_kb_incoming] == 0) 
+    //if (gb_keymap[gb_kb_incoming] == 0)
+    if (((gb_keymap[(gb_kb_incoming>>3)]>>(gb_kb_incoming & 0x07)) & 0x01) == 0)
     {
      //auxId= gb_kb_incoming>>3; //DIV 8
      //auxOffs= gb_kb_incoming & 0x07; //MOD 8
@@ -92,7 +96,11 @@ void __not_in_flash_func()kb_interruptHandler()
      // keymap[gg]= 1;
      //}
      
-     memset((void *)gb_keymap,0xFF,sizeof(gb_keymap));
+     //memset((void *)gb_keymap,0xFF,sizeof(gb_keymap));
+     for (unsigned char gg = 0; gg < gb_max_keymap32; gg++)
+     { //cambio      
+      gb_keymap32[gg]=(unsigned int)0xFFFFFFFF;
+     }     
 
      //memset((void *)keymap,1,sizeof(keymap));
     }
