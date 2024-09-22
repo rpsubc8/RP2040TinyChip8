@@ -120,6 +120,14 @@ For some emulators, when using the native HID protocol via USB, the keyboard mus
 Like the ESP32TinyChip8, I have left an OSD visible when pressing the F1 key.<br>
 You can navigate with the directional arrows on the keyboard, and when playing, you can use the keys:<br>
 
+
+<br><br>
+<h1>Test keyboard PS/2</h1>
+To test a PS/2 keyboard:<br><br>
+<a href='https://github.com/rpsubc8/testkeyboardPS2'>https://github.com/rpsubc8/testkeyboardPS2</a>
+
+
+
 <h2>Keyboard PS/2</h2>
 
 |  K  |  K  |  K  |  K  |
